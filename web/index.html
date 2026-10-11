@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#141513">
+  <title>NeoBots · 你的 Agent 工作室</title>
+  <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/static/style.css">
+  <script type="module" src="/static/app.js"></script>
+</head>
+<body>
+  <div id="login" class="login hidden">
+    <form id="login-form" class="login-card">
+      <div class="brand-mark large">N<span>↗</span></div>
+      <p class="eyebrow">YOUR PERSONAL AGENT STUDIO</p>
+      <h1>欢迎回到 NeoBots</h1>
+      <p class="muted">你的团队、工作和记忆，都在这里。</p>
+      <label>访问密码<input name="password" type="password" autocomplete="current-password" required autofocus></label>
+      <button class="primary" type="submit">进入工作室 <span>↗</span></button>
+      <p id="login-error" class="error-text" role="alert"></p>
+    </form>
+  </div>
+  <div id="app" class="app hidden">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="/"><div class="brand-mark">N<span>↗</span></div><span>NeoBots<small>PERSONAL WORKSPACE</small></span></a>
+      <button class="new-bot" data-action="new-bot"><span>＋</span> 创建 Bot <kbd>NEW</kbd></button>
+      <nav id="navigation" aria-label="工作室导航"></nav>
+      <div class="sidebar-label">你的团队 <span id="bot-count"></span></div>
+      <div id="bot-list" class="bot-list"></div>
+      <div class="sidebar-bottom">
+        <div class="connection"><span id="computer-dot" class="status-dot"></span><span id="computer-status">正在连接工作室</span><button class="icon-button" data-action="health" title="刷新状态">↻</button></div>
+        <button class="account" data-action="settings"><span class="avatar owner">你</span><span>个人工作室<small id="model-name">配置模型后即可开始</small></span><span>⚙</span></button>
+      </div>
+    </aside>
+    <main class="main">
+      <header class="topbar">
+        <button class="icon-button mobile-menu" data-action="menu" aria-label="打开导航">☰</button>
+        <div id="page-title"></div>
+        <div class="topbar-actions"><span class="local-badge">私有工作室</span><button class="secondary compact" data-action="computer">◫ <span>共享电脑</span></button></div>
+      </header>
+      <div id="configuration-banner" class="banner hidden">配置模型后即可派单。在 <code>.env</code> 中填写服务地址、模型名和 API Key，然后重启应用。<button data-action="settings">查看配置说明 ↗</button></div>
+      <div id="content" class="content"></div>
+      <div id="composer-area" class="composer-area">
+        <form id="composer" class="composer">
+          <textarea id="prompt" rows="2" placeholder="告诉 Neo 你想完成什么…" aria-label="任务内容" required maxlength="30000"></textarea>
+          <div class="composer-footer"><div><span class="tool-chip">◈ 电脑与工具</span><button type="button" class="quiet" data-action="skills">/ 技能</button></div><button id="send" class="send" type="submit" aria-label="发送任务">↑</button></div>
+        </form>
+        <p class="composer-note">任务在后台运行 · 关闭网页后仍会继续 <span>Enter 发送 · Shift + Enter 换行</span></p>
+      </div>
+    </main>
+    <aside id="computer-panel" class="computer-panel hidden" aria-label="共享电脑"></aside>
+  </div>
+  <dialog id="dialog"></dialog>
+  <div id="toast" class="toast hidden" role="status"></div>
+</body>
+</html>

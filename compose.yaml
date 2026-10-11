@@ -1,0 +1,47 @@
+services:
+  app:
+    build:
+      context: .
+      target: app
+    ports:
+      - "127.0.0.1:${NEOBOTS_PORT:-18787}:8787"
+    environment:
+      MODEL_BASE_URL: ${MODEL_BASE_URL:-}
+      MODEL_NAME: ${MODEL_NAME:-}
+      MODEL_API_KEY: ${MODEL_API_KEY:-}
+      NEOBOTS_PASSWORD: ${NEOBOTS_PASSWORD:?Set NEOBOTS_PASSWORD in .env}
+      NEOBOTS_RUNTIME_TOKEN: ${NEOBOTS_RUNTIME_TOKEN:?Set NEOBOTS_RUNTIME_TOKEN in .env}
+      NEOBOTS_RUNTIME_URL: http://computer:8788
+    volumes:
+      - app-data:/data
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      - computer
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+  computer:
+    build:
+      context: .
+      target: computer
+    environment:
+      NEOBOTS_RUNTIME_TOKEN: ${NEOBOTS_RUNTIME_TOKEN:?Set NEOBOTS_RUNTIME_TOKEN in .env}
+    volumes:
+      - workspace:/workspace
+      - browser-profile:/browser-profile
+    shm_size: 1gb
+    init: true
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    pids_limit: 256
+    mem_limit: 2g
+volumes:
+  app-data:
+  workspace:
+  browser-profile:
